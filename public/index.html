@@ -32,6 +32,7 @@
         : 'https://restserver-nodejsfh.herokuapp.com/api/auth/google';
 
 
+
         function onSignIn(googleUser) {
 
             var profile = googleUser.getBasicProfile();
@@ -49,7 +50,7 @@
                 body: JSON.stringify( data )
             } )
             .then( resp => resp.json() )
-            .then( data => console.log( 'Nuestro server', data) )
+            .then( data => console.log( 'Nuestro server', data ) )
             .catch( console.log );
 
            
