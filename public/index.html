@@ -47,7 +47,8 @@
             fetch( url, {
                 method: 'POST',
                 headers: { 'Content-type': 'application/json'},
-                body: JSON.stringify( data )
+                body: JSON.stringify({idToken: idtoken})
+               // body: JSON.stringify( data )
             } )
             .then( resp => resp.json() )
             .then( data => console.log( 'Nuestro server', data ) )
