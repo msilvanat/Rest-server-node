@@ -59,10 +59,16 @@ const googleSignin = async (req, res = response) => {
 
     const { id_token } = req.body;
 
+    console.log("googleSignin token: ", id_token);
+
     try {
         const { correo, nombre, img } = await googleVerify(id_token);
 
+        console.log("googleSignin Paso google verify correo es: ", correo);
+
         let usuario = await Usuario.findOne({ correo });
+
+        console.log("googleSignin resultado de findone es: ", usuario);
 
         if (!usuario) {
 
@@ -75,25 +81,32 @@ const googleSignin = async (req, res = response) => {
             };
 
             usuario = new Usuario(data);
+            
+            console.log("googleSignin nuevo usuario creado: ", usuario);
+
             await usuario.save();
         }
 
+        console.log("googleSignin al salir del if crear usuario usuario es: ", usuario); 
+
         //Si el usuario en BD
-        if( !usuario.estado ) {
+        if (!usuario.estado) {
             return res.status(401).json({
                 msg: 'Hable con el administrador, usuario bloqueado'
             });
         }
 
         //Generar el JWT
-        const token = await generarJWT( usuario.id );
+        const token = await generarJWT(usuario.id);
+
+        console.log("googleSignin nuevo token: ", token);
 
         res.json({
             usuario,
             token
         });
     } catch (error) {
-  console.log(error);
+        console.log("googleSignin Error: ", error);
         res.status(400).json({
             msg: 'Token de Google no es válido'
         })
